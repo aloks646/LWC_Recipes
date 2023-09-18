@@ -1,0 +1,12 @@
+.accountBg{
+    background-color: rgb(245, 245, 245);
+}
+
+.tableHeader{
+    background-color: transparent;
+}
+
+.tableHeaderBorder{
+    border-top: 1px solid #dddbda;
+    border-bottom: 1px solid #dddbda
+}

@@ -1,0 +1,37 @@
+<template>
+	<lightning-card title="Execute Batch Apex in LWC" icon-name="standard:custom_component_task">
+		<div>
+			<lightning-layout>
+				<lightning-layout-item size="4" padding="around-small">
+					<lightning-combobox label="Select Batch Class Name" variant="label-inline"
+						options={batachApexOptions} placeholder="--None--" onchange={handleBatchNameChange}
+						disabled={disableBatchOption}>
+					</lightning-combobox>
+				</lightning-layout-item>
+				<lightning-layout-item size="4" padding="around-small">
+					<lightning-input label="Enter Batch Size" variant="label-inline" type="number" min="1" max="2000"
+						disabled={disableBatchSize} onchange={handleBatchSizeChange}
+						value={batchSize}></lightning-input>
+				</lightning-layout-item>
+				<lightning-layout-item size="4" padding="around-small">
+					<lightning-button label="Execute Batch" variant="brand" onclick={handleExecuteBatchButton} class=""
+						disabled={disableExecuteBatch}></lightning-button>
+				</lightning-layout-item>
+			</lightning-layout>
+
+			<lightning-layout lwc:if={batchJobId}>
+				<lightning-layout-item size="12" padding="around-small">
+					<div class="slds-var-p-top_large">
+						Batch Percentage Executed: <b>{executedPercentage}%</b>
+					</div>
+					<div class="slds-var-p-top_large">
+						<lightning-progress-bar value={executedIndicator} size="large"></lightning-progress-bar>
+					</div>
+					<div class="slds-var-p-top_large">
+						Batch Executed <b>{jobItemsProcessed}</b> of <b>{totalJobItems}</b>
+					</div>
+				</lightning-layout-item>
+			</lightning-layout>
+		</div>
+	</lightning-card>
+</template>

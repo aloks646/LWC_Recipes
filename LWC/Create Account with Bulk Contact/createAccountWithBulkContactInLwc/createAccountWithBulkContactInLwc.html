@@ -1,0 +1,122 @@
+<template>
+	<lightning-card title="Account with Bulk Contact" icon-name="standard:timesheet">
+		<div class="slds-var-m-around_medium">
+			<div class="accountBg slds-box">
+				<lightning-layout>
+					<lightning-layout-item size="4">
+						<lightning-input type="text" label="Account Name" max-length="20"
+							value={accountInputRecordMap.acctName} onchange={handleAccountInputChange}
+							data-name="acctName" message-when-value-missing="Account Name is required"
+							class="validateAccount slds-var-m-right_small" required>
+						</lightning-input>
+					</lightning-layout-item>
+					<lightning-layout-item size="4">
+						<lightning-input type="phone" label="Phone" max-length="20" onchange={handleAccountInputChange}
+							value={accountInputRecordMap.acctPhone} data-name="acctPhone"
+							message-when-value-missing="Phone is required"
+							class="slds-var-m-right_small validateAccount" required>
+						</lightning-input>
+					</lightning-layout-item>
+					<lightning-layout-item size="4">
+						<lightning-input type="email" label="Email" onchange={handleAccountInputChange}
+							value={accountInputRecordMap.acctEmail} data-name="acctEmail">
+						</lightning-input>
+					</lightning-layout-item>
+				</lightning-layout>
+			</div>
+
+			<div>
+				<table class="slds-table slds-table--fixed-layout slds-no-row-hover" style="border:1px #ddd solid;">
+					<thead class="tableHeaderBorder">
+						<tr class="slds-line-height_reset">
+							<th scope="col" class="tableHeader" style="width:3%">
+								<div class="slds-truncate">#</div>
+							</th>
+							<th scope="col" class="tableHeader">
+								<div class="slds-truncate">First Name</div>
+							</th>
+							<th scope="col" class="tableHeader">
+								<div class="slds-truncate">
+									<span class="required">*</span>Last Name
+								</div>
+							</th>
+
+							<th scope="col" class="tableHeader">
+								<div class="slds-truncate">Phone</div>
+							</th>
+							<th scope="col" class="tableHeader">
+								<div class="slds-truncate">Email</div>
+							</th>
+							<th style="width: 2%" class="tableHeader">
+								<div class="slds-truncate"></div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<template for:each={contactListItems} for:item="contItem" for:index="index">
+							<tr class="slds-hint-parent" key={contItem.srNo}>
+								<td scope="col" class="slds-truncate">
+									{contItem.srNo}
+								</td>
+								<td scope="col" class="slds-truncate">
+									<lightning-input type="text" variant="label-hidden" max-length="20"
+										onchange={handleContactInputChange} data-name="contFirstName"
+										value={contItem.contFirstName} data-index={index}>
+									</lightning-input>
+								</td>
+								<td scope="col" class="slds-truncate">
+									<lightning-input type="text" variant="label-hidden" max-length="20"
+										onchange={handleContactInputChange} data-name="contLastName"
+										value={contItem.contLastName}
+										message-when-value-missing="Contact Last Name is required"
+										class="validateContact" data-index={index} required>
+									</lightning-input>
+								</td>
+								<td scope="col" class="slds-truncate">
+									<lightning-input type="phone" variant="label-hidden" max-length="20"
+										value={contItem.contPhone} onchange={handleContactInputChange}
+										data-name="contPhone" data-index={index}>
+									</lightning-input>
+								</td>
+								<td scope="col" class="slds-truncate">
+									<lightning-input type="email" variant="label-hidden" value={contItem.contEmail}
+										onchange={handleContactInputChange} data-name="contEmail" data-index={index}>
+									</lightning-input>
+								</td>
+								<td>
+									<lightning-button-icon onclick={handleRemoveRow} variant="bare" data-index={index}
+										icon-name="utility:close">
+									</lightning-button-icon>
+								</td>
+							</tr>
+						</template>
+						<tr>
+							<td scope="col" colspan="2">
+								<div class="slds-var-m-top_medium slds-grid slds-gutters_xx-small">
+									<div class="slds-col slds-no-flex">
+										<lightning-button label="Add Row" onclick={handleAddNewRowButton}>
+										</lightning-button>
+									</div>
+									<div style="width: 15%;">
+										<lightning-input type="number" min="1" max="20" step="1" autocomplete="off"
+											value={newRowsAdded} onchange={handleRowAddInput} variant="label-hidden">
+										</lightning-input>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="slds-var-m-top_large slds-align_absolute-center">
+				<lightning-button label="Cancel" name="cancel" class="slds-var-p-right_xx-small"
+					onclick={handleFormButtonAction}></lightning-button>
+				<lightning-button label="Save &amp; New" name="saveAndNew" class="slds-var-p-right_xx-small"
+					onclick={handleFormButtonAction}></lightning-button>
+				<lightning-button label="Save" variant="brand" name="save"
+					onclick={handleFormButtonAction}></lightning-button>
+			</div>
+		</div>
+	</lightning-card>
+</template>

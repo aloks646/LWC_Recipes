@@ -1,0 +1,110 @@
+<template>
+	<lightning-card title="Metadata Search" icon-name="custom:custom57">
+		<div class="slds-var-m-around_medium">
+			<div class="slds-grid slds-wrap">
+				<div class="slds-col slds-size_2-of-12">
+					<lightning-combobox variant="label-hidden" options={metadataOption} value={selectedValue}
+						onchange={handleMetadataChange} placeholder="Select Metadata"></lightning-combobox>
+				</div>
+				<div class="slds-col slds-size_6-of-12">
+					<lightning-input type="search" variant="label-hidden" placeholder={placeHolder} value={searchKey}
+						onchange={handleInputChange} disabled={hasNoRecord}>
+					</lightning-input>
+				</div>
+				<div class="slds-col slds-size_4-of-12">
+					<template lwc:if={hasSearchNoRecord}>
+						<div class="slds-var-m-left_medium">
+							<h1 style="color:red; font-size:16px;"><strong>{hasNoRecordMessage}</strong></h1>
+						</div>
+					</template>
+				</div>
+			</div>
+
+			<template lwc:if={showSpinner}>
+				<lightning-spinner alternative-text="Loading..."></lightning-spinner>
+			</template>
+
+			<template lwc:if={metadataRecordList}>
+				<template for:each={metadataRecordList} for:item="record">
+					<div class="slds-box slds-var-m-vertical_large slds-var-m-horizontal_medium" key={record.id}>
+						<div class="slds-grid slds-wrap">
+							<div class="slds-col slds-size_6-of-12 slds-truncate">
+								<h3 slot="title" style="font-weight:bold">
+									<lightning-icon icon-name="doctype:txt" alternative-text="XML file"
+										title="XML"></lightning-icon>
+									<span class="slds-p-left_x-small slds-text-heading_small">{record.name}</span>
+								</h3>
+							</div>
+							<div class="slds-col slds-size_6-of-12 slds-text-align_right">
+								<lightning-button label="Edit" onclick={handleRecordButton} data-id={record.id}
+									class="slds-var-m-right_xx-small"></lightning-button>
+								<lightning-button label={record.viewHide} onclick={handleRecordButton}
+									data-id={record.id}></lightning-button>
+							</div>
+						</div>
+
+						<div class="slds-grid slds-gutters_x-small slds-var-m-top_large slds-var-m-horizontal_small">
+							<div class="slds-col slds-truncate slds-size_1-of-12">
+								<div class="slds-truncate slds-text-title" title="Api Version">Api Version</div>
+								<div class="slds-truncate" title={record.apiVersion}>{record.apiVersion}</div>
+							</div>
+
+							<template lwc:if={record.isApex}>
+								<div class="slds-col slds-truncate slds-size_1-of-12">
+									<div class="slds-truncate slds-text-title" title="Status">Status</div>
+									<div class="slds-truncate" title={record.status}>{record.status}</div>
+								</div>
+							</template>
+							<div class="slds-col slds-no-flex slds-truncate slds-size_1-of-12">
+								<div class="slds-truncate slds-text-title" title="Namespace Prefix">Namespace Prefix
+								</div>
+								<div class="slds-truncate" title={record.namespace}>{record.namespace}</div>
+							</div>
+							<div class="slds-col slds-no-flex slds-truncate slds-size_2-of-12">
+								<div class="slds-truncate slds-text-title" title="Created Date">Created Date</div>
+								<div class="slds-truncate" title={record.createdDate}>{record.createdDate}</div>
+							</div>
+							<div class="slds-col slds-no-flex slds-truncate slds-size_2-of-12">
+								<div class="slds-truncate slds-text-title" title="Created By Name">Created By Name</div>
+								<div class="slds-truncate" title={record.createdBy}>{record.createdBy}</div>
+							</div>
+							<div class="slds-col slds-no-flex slds-truncate slds-size_2-of-12">
+								<div class="slds-truncate slds-text-title" title="LastModified Date">LastModified Date
+								</div>
+								<div class="slds-truncate" title={record.lastModifiedDate}>{record.lastModifiedDate}
+								</div>
+							</div>
+							<div class="slds-col slds-no-flex slds-truncate slds-size_2-of-12">
+								<div class="slds-truncate slds-text-title" title="LastModified By Name">LastModified By
+									Name</div>
+								<div class="slds-truncate" title={record.lastModifiedBy}>{record.lastModifiedBy}</div>
+							</div>
+						</div>
+					</div>
+
+					<template lwc:if={record.showCode}>
+						<div class="slds-box slds-var-m-vertical_medium slds-var-m-horizontal_medium" key={record.id}>
+							<pre>
+                                        <code class="language-html">
+                                            {record.body}
+                                        </code>
+                                    </pre>
+						</div>
+					</template>
+				</template>
+
+				<!-- Pagination component -->
+				<c-lib-pagination-in-lwc onpaginationbuttonaction={handlePaginationButtonAction}
+					pagination-data={paginationData}>
+				</c-lib-pagination-in-lwc>
+			</template>
+			<template lwc:else>
+				<template lwc:if={hasNoRecord}>
+					<div class="slds-align_absolute-center slds-var-m-vertical_large">
+						<h1 style="color:red; font-size:16px;"><strong>{hasNoRecordMessage}</strong></h1>
+					</div>
+				</template>
+			</template>
+		</div>
+	</lightning-card>
+</template>
