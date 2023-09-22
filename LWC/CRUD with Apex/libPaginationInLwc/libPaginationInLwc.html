@@ -1,0 +1,35 @@
+<template>
+    <div class="slds-var-m-vertical_large slds-var-m-horizontal_medium">
+        <lightning-layout>
+            <div class="slds-col slds-size_1-of-12">
+                <lightning-combobox variant="label-hidden" options={pageSizeOption} onchange={handlePageSizeChange}
+                    value={pageSize}></lightning-combobox>
+            </div>
+
+            <div class="slds-col slds-size_3-of-12"></div>
+
+            <div class="slds-col slds-size_8-of-12">
+                <lightning-button label="First" name="first" onclick={handlePaginationButton} icon-name="utility:left"
+                    class="slds-var-p-right_xx-small" disabled={buttonDisabled1}></lightning-button>
+
+                <lightning-button label="Previous" name="previous" onclick={handlePaginationButton}
+                    icon-name="utility:chevronleft" class="slds-var-p-right_xx-small"
+                    disabled={buttonDisabled1}></lightning-button>
+
+                <span class="slds-badge slds-badge_lightest">
+                    {paginationData.start} - {paginationData.end} of {paginationData.totalRecords} | Page
+                    {currentPageNumber} of {paginationData.totalPages}
+                </span>
+
+                <lightning-button label="Next" name="next" onclick={handlePaginationButton}
+                    icon-name="utility:chevronright" icon-position="right" class="slds-var-p-left_xx-small"
+                    disabled={buttonDisabled2}></lightning-button>
+
+                <lightning-button label="Last" name="last" onclick={handlePaginationButton} icon-name="utility:right"
+                    icon-position="right" class="slds-var-p-left_xx-small"
+                    disabled={buttonDisabled2}></lightning-button>
+
+            </div>
+        </lightning-layout>
+    </div>
+</template>

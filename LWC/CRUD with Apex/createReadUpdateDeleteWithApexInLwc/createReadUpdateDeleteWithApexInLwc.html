@@ -1,0 +1,85 @@
+<template>
+    <div class="slds-card">
+        <div>
+            <lightning-layout>
+                <lightning-layout-item size="6">
+                    <lightning-card title={subTitle} icon-name="standard:account"></lightning-card>
+                </lightning-layout-item>
+                <lightning-layout-item size="3">
+
+                </lightning-layout-item>
+                <lightning-layout-item size="3" padding="around-small" class="slds-text-align_right">
+                    <lightning-button label="New Account" name="newAccount"
+                        onclick={handleNewAccountButton}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+
+        <template lwc:if={showSpinner}>
+            <lightning-spinner alternative-text="Loading.."></lightning-spinner>
+        </template>
+
+        <template lwc:if={hasRecord}>
+            <div class="slds-var-m-around_medium">
+                <table class="slds-table slds-table_bordered slds-table--fixed-layout" style="border:1px #ddd solid;">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col" class="slds-truncate tableHeader" style="width:5%">S.No.</th>
+                            <th scope="col" class="slds-truncate tableHeader">Account Name</th>
+                            <th scope="col" class="slds-truncate tableHeader">Phone</th>
+                            <th scope="col" class="slds-truncate tableHeader">Rating</th>
+                            <th scope="col" class="slds-truncate tableHeader">Industry</th>
+                            <th scope="col" class="slds-truncate tableHeader">Email</th>
+                            <th scope="col" class="slds-truncate tableHeader">Account Number</th>
+                            <th scope="col" class="slds-truncate" style="width:4%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={accountList} for:item="acct" for:index="idx">
+                            <tr class="slds-hint-parent" key={acct.acctId}>
+                                <td class="slds-truncate">{acct.index}</td>
+                                <td class="slds-truncate">{acct.acctName}</td>
+                                <td class="slds-truncate">{acct.acctPhone}</td>
+                                <td class="slds-truncate">{acct.acctRating}</td>
+                                <td class="slds-truncate">{acct.acctIndustry}</td>
+                                <td class="slds-truncate">{acct.acctEmail}</td>
+                                <td class="slds-truncate">{acct.acctAccountNumber}</td>
+                                <td>
+                                    <div class="slds-align_absolute-center" style="overflow: visible">
+                                        <lightning-button-menu alternative-text="Action" variant="border-filled"
+                                            onselect={handleRowAction} menu-alignment="right" icon-size="x-small"
+                                            data-id={idx}>
+                                            <lightning-menu-item value="view" label="View"></lightning-menu-item>
+                                            <lightning-menu-item value="edit" label="Edit"></lightning-menu-item>
+                                            <lightning-menu-item value="delete" label="Delete"></lightning-menu-item>
+
+                                        </lightning-button-menu>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination component -->
+            <c-lib-pagination-in-lwc onpaginationbuttonaction={handlePaginationButtonAction}
+                pagination-data={paginationData}></c-lib-pagination-in-lwc>
+
+        </template>
+        <template lwc:else>
+            <template lwc:if={hasNoRecord}>
+                <div class="slds-align_absolute-center slds-var-m-bottom_large">
+                    <h1 style="color:red; font-size:16px;"><strong>No Account Records found...</strong></h1>
+                </div>
+            </template>
+        </template>
+    </div>
+
+    <!-- libModalBoxInLwc component -->
+    <template lwc:if={isModalOpen}>
+        <c-lib-modal-box2-in-lwc is-modal-open={isModalOpen} onmodalbuttonaction={handleModalButtonAction}
+            modal-data={modalData}></c-lib-modal-box2-in-lwc>
+    </template>
+
+</template>
