@@ -1,0 +1,36 @@
+<template>
+    <div class="slds-card">
+        <div>
+            <lightning-layout>
+                <lightning-layout-item size="6">
+                    <lightning-card title={subTitle} icon-name="standard:account">
+                    </lightning-card>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="3">
+
+                </lightning-layout-item>
+
+                <lightning-layout-item size="3" class="slds-text-align_right" padding="around-small">
+                    <lightning-button label="New Account" variant="neutral" name="newAccount"
+                        onclick={handleNewAccount}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+
+        <div>
+            <lightning-datatable key-field="Id" data={paginationList} columns={accountColumnList} hide-checkbox-column
+                show-row-number-column onrowaction={handleRowAction}></lightning-datatable>
+        </div>
+
+        <!-- Pagination component -->
+        <c-lib-pagination-in-lwc onpaginationbuttonaction={handlePaginationButtonAction}
+            pagination-data={paginationData}></c-lib-pagination-in-lwc>
+    </div>
+
+    <!-- libModalBoxInLwc component -->
+    <template lwc:if={isModalOpen}>
+        <c-lib-modal-box-in-lwc is-modal-open={isModalOpen} onmodalbuttonaction={handleModalButtonAction}
+            modal-data={modalData}></c-lib-modal-box-in-lwc>
+    </template>
+</template>

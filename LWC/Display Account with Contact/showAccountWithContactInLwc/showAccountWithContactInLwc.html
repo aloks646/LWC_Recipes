@@ -1,0 +1,103 @@
+<template>
+	<lightning-card title={subTitle} icon-name="standard:account">
+		<div class="slds-var-m-around_medium">
+			<div>
+				<template lwc:if={showSpinner}>
+					<lightning-spinner alternative-text="Loading">
+					</lightning-spinner>
+				</template>
+
+				<template lwc:if={hasRecord}>
+					<table class="slds-table slds-table_bordered slds-table--fixed-layout slds-no-row-hover"
+						style="border:1px #ddd solid;">
+						<thead>
+							<tr class="slds-line-height_reset">
+								<th scope="col" class="slds-truncate tableHeader" style="width:5%">S.No.</th>
+								<th scope="col" class="slds-truncate tableHeader">Account Name</th>
+								<th scope="col" class="slds-truncate tableHeader">Phone</th>
+								<th scope="col" class="slds-truncate tableHeader">Industry</th>
+								<th scope="col" class="slds-truncate tableHeader">Email</th>
+								<th scope="col" class="slds-truncate" style="width:10%"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<template for:each={accountList} for:item="acc" for:index="index">
+								<tr class="slds-hint-parent" key={acc.acctId}>
+									<td class="slds-truncate">{acc.SrNo}</td>
+									<td class="slds-truncate">{acc.acctName}</td>
+									<td class="slds-truncate">{acc.acctPhone}</td>
+									<td class="slds-truncate">{acc.acctIndustry}</td>
+									<td class="slds-truncate">{acc.acctEmail}</td>
+									<td class="slds-truncate">
+										<div class="slds-truncate">
+											<lightning-button label="View Contact" onclick={handleContactView}
+												disabled={acc.hasNoContact} data-index={index}></lightning-button>
+										</div>
+									</td>
+								</tr>
+							</template>
+						</tbody>
+					</table>
+
+					<!-- Pagination component -->
+					<c-lib-pagination-in-lwc onpaginationbuttonaction={handlePaginationButtonAction}
+						pagination-data={paginationData}>
+					</c-lib-pagination-in-lwc>
+				</template>
+				<template lwc:else>
+					<template lwc:if={hasNoRecord}>
+						<div class="slds-align_absolute-center slds-var-m-bottom_large">
+							<h1 style="color:red; font-size:16px;"><strong>No Account Records found...</strong></h1>
+						</div>
+					</template>
+				</template>
+			</div>
+		</div>
+	</lightning-card>
+
+	<!-- Modal/Popup Box starts here to show related Contacts-->
+	<template lwc:if={isModalOpen}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+					<lightning-button-icon icon-name="utility:close" onclick={handleCloseModal} alternative-text="close"
+						variant="bare-inverse" class="slds-modal__close">
+					</lightning-button-icon>
+					<h1 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Related Contacts</h1>
+				</header>
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+					<table
+						class="slds-table slds-table_bordered slds-table--fixed-layout slds-no-row-hover slds-table--col-bordered"
+						style="border:1px #ddd solid;">
+						<thead>
+							<tr class="slds-line-height_reset">
+								<th scope="col" class="slds-truncate" style="width:10%">S.No.</th>
+								<th scope="col" class="slds-truncate">Contact Id</th>
+								<th scope="col" class="slds-truncate">First Name </th>
+								<th scope="col" class="slds-truncate">Last Name</th>
+								<th scope="col" class="slds-truncate">Phone</th>
+							</tr>
+						</thead>
+						<tbody>
+							<template for:each={contactList} for:item="con" for:index="index">
+								<tr class="slds-hint-parent" key={con.contId}>
+									<td class="slds-truncate">{con.SrNo}</td>
+									<td class="slds-truncate">{con.contId}</td>
+									<td class="slds-truncate">{con.contFirstName}</td>
+									<td class="slds-truncate">{con.contLastName}</td>
+									<td class="slds-truncate">{con.contPhone}</td>
+								</tr>
+							</template>
+						</tbody>
+					</table>
+				</div>
+				<footer class="slds-modal__footer">
+					<lightning-button variant="neutral" label="Cancel" onclick={handleCloseModal}>
+					</lightning-button>
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+</template>
